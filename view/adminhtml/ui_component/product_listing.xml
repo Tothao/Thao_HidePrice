@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <columns name="product_columns">
+        <column name="custom_link" class="Thao\HidePrice\Ui\Component\Listing\Column\CustomLink" sortOrder="130">
+            <settings>
+                <dataType>text</dataType>
+                <filter>text</filter>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <label translate="true">Custom Link</label>
+            </settings>
+        </column>
+    </columns>
+</listing>
