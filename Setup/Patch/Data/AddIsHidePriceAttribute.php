@@ -45,7 +45,7 @@ class AddIsHidePriceAttribute implements DataPatchInterface {
             'label' => 'Is Hide Price',
             'input' => 'select',
             'class' => '',
-            'source' => 'Magento\Catalog\Model\Product\Attribute\Source\Status',
+            'source' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean',
             'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
             'visible' => true,
             'required' => true,
@@ -69,7 +69,8 @@ class AddIsHidePriceAttribute implements DataPatchInterface {
     /**
      * {@inheritdoc}
      */
-    public function getAliases() {
+    public function getAliases()
+    {
         return [];
     }
 }
