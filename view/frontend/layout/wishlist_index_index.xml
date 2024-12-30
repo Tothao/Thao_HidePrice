@@ -1,24 +1,7 @@
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-        <!-- Tùy chỉnh hiển thị giá trong wishlist -->
-        <block class="Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Cart" name="customer.wishlist.item.price" cacheable="false">
-            <arguments>
-                <argument name="template" xsi:type="string">Thao_HidePrice::wishlist/item_price.phtml</argument>
-            </arguments>
-            <block class="Magento\Catalog\Pricing\Render" name="product.price.render.wishlist">
-                <arguments>
-                    <argument name="price_render" xsi:type="string">product.price.render.default</argument>
-                    <argument name="price_type_code" xsi:type="string">wishlist_configured_price</argument>
-                    <argument name="price_label" xsi:type="boolean">false</argument>
-                    <argument name="zone" xsi:type="string">item_list</argument>
-                </arguments>
-            </block>
-        </block>
-
-        <!-- Thêm block tùy chỉnh để quản lý nút Add to Cart -->
-        <referenceBlock name="customer.wishlist.item.cart" remove="true"/>
-        <referenceBlock name="customer.wishlist.item.cart">
-            <block class="Thao\HidePrice\Block\Wishlist\HidePrice" name="wishlist.item.cart" template="Thao_HidePrice::wishlist/item_cart.phtml"/>
-        </referenceBlock>
+        <referenceBlock name="customer.wishlist.item.cart" template="Thao_HidePrice::wishlist/item_cart.phtml"/>
+        <referenceBlock name="customer.wishlist.item.price" template="Thao_HidePrice::wishlist/item_price.phtml"/>
     </body>
 </page>

@@ -1,14 +1,16 @@
 <?php
-/** @var \Thao\HidePrice\Block\Wishlist\HidePrice $block */
-$wishlistItem = $block->getWishlistItem(); // Lấy wishlist item từ block
-$product = $wishlistItem ? $wishlistItem->getProduct() : null; // Lấy sản phẩm từ wishlist item
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Cart $block */
+/** @var $_product \Magento\Catalog\Model\Product */
+$isHidePrice = $block->getItem()->getProduct()->getIsHidePrice();
 ?>
-
-<div class="wishlist-item">
-    <h3><?= $product ? $product->getName() : '' ?></h3>
-
-    <?php if ($product && $block->isHidePrice($product)): ?>
-        <span class="hide-price"><?= __('Contact Us for Price') ?></span>
-    <?php else: ?>
-        <div class="product-price"><?= $block->getProductPrice($product) ?></div>
-    <?php endif; ?>
+<?php if (!$isHidePrice) : ?>
+    <?php foreach ($block->getChildNames() as $childName) : ?>
+        <?= /* @noEscape */
+        $block->getLayout()->renderElement($childName, false) ?>
+    <?php endforeach; ?>
+<?php endif; ?>
