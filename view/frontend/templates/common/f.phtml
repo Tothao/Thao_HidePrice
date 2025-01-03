@@ -1,0 +1,40 @@
+<div>
+    <a href="#" id="click-me">Click Me</a>
+</div>
+
+<div id="popup-modal" style="display:none;">
+    <h1> Hi I'm here.... </h1>
+</div>
+
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: 'popup modal title',
+                buttons: [{
+                    text: $.mage.__('Continue'),
+                    class: '',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }]
+            };
+
+            var popup = modal(options, $('#popup-modal'));
+            $("#click-me").on('click',function(){
+                $("#popup-modal").modal("openModal");
+            });
+
+        }
+    );
+</script>

@@ -192,7 +192,8 @@ $_item = null;
 
                                     <!-- Check if the price should be hidden -->
                                     <?php if ($_item->getIsHidePrice()): ?>
-                                        <p class="price hidden"><?= __('Contact Us for Price') ?></p>
+                                        <?= $this->getLayout()->createBlock(\Magento\Framework\View\Element\Template::class)
+                                            ->setTemplate('Thao_HidePrice::common/contact-us-button.phtml')->toHtml(); ?>
                                     <?php else: ?>
                                         <?= $block->getProductPrice($_item) ?>
                                     <?php endif; ?>

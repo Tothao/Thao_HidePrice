@@ -1,10 +1,9 @@
 <?php
-/** @var Thao\HidePrice\Block\View $block */
+/** @var \Thao\HidePrice\Block\View\Contact $block */
 $isHidePrice = $block->isHidePrice();
 ?>
 
 <?php if ($isHidePrice) : ?>
-    <div>
-        <button><?= __("Contact us")?></button>
-    </div>
-<?php endif;?>
+    <?= $this->getLayout()->createBlock(\Magento\Framework\View\Element\Template::class)
+        ->setTemplate('Thao_HidePrice::common/contact-us-button.phtml')->toHtml(); ?>
+<?php endif; ?>

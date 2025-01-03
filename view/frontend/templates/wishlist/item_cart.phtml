@@ -37,7 +37,8 @@ $allowedQty = $viewModel->setItem($item)->getMinMaxQty();
             </div>
         <?php endif; ?>
         <?php if ($isHidePrice) : ?>
-            <button>contact us for price</button>
+            <?= $this->getLayout()->createBlock(\Magento\Framework\View\Element\Template::class)
+                ->setTemplate('Thao_HidePrice::common/contact-us-button.phtml')->toHtml(); ?>
         <?php else: ?>
 
             <?php if ($product->isSaleable()) : ?>

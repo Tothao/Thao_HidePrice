@@ -1,12 +1,13 @@
 <page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
-        <referenceBlock class="Thao\HidePrice\Block\View\Contact" name="product.info.addtocart"
-                        template="Thao_HidePrice::catalog/product/view/contact_us.phtml"/>
+        <referenceContainer  name="product.info.form.content">
+            <block class="Thao\HidePrice\Block\View\Contact" name="product.addtocart" template="Thao_HidePrice::common/contact-us-button.phtml"/>
+        </referenceContainer>
+<!--        template="Thao_HidePrice::catalog/product/view/contact_us.phtml"-->
         <referenceBlock class="Magento\Catalog\Block\Product\ProductList\Related" name="catalog.product.related"
                         template="Thao_HidePrice::catalog/product/list/items.phtml"/>
         <referenceBlock class="Magento\Catalog\Block\Product\ProductList\Upsell" name="product.info.upsell"
                         template="Thao_HidePrice::catalog/product/list/items.phtml"/>
-
     </body>
 </page>

@@ -1,0 +1,69 @@
+<!-- contact-us-button.phtml -->
+
+<!-- Nút "Contact Us" -->
+<div>
+    <button type="button" class="contact-us-button"><a href="#" id="click-me">Click Me</a></button>
+</div>
+
+<!-- Popup HTML -->
+<div id="popup-modal" style="display:none;"">
+    <div class="popup-content">
+        <span class="close-popup">&times;</span>
+        <h2><?= __("Contact Us") ?></h2>
+
+        <!-- Form -->
+        <form id="contactUsForm" action="#" method="post">
+            <div>
+                <label for="full_name"><?= __("Full Name") ?>:</label><br>
+                <input type="text" id="full_name" name="full_name" required><br><br>
+            </div>
+            <div>
+                <label for="email"><?= __("Email") ?>:</label><br>
+                <input type="email" id="email" name="email" required><br><br>
+            </div>
+            <div>
+                <label for="phone"><?= __("Phone Number") ?>:</label><br>
+                <input type="tel" id="phone" name="phone" required><br><br>
+            </div>
+            <div>
+                <label for="message"><?= __("Message") ?>:</label><br>
+                <textarea id="message" name="message" rows="4" required></textarea><br><br>
+            </div>
+            <button type="submit"><?= __("Submit") ?></button>
+        </form>
+    </div>
+</div>
+
+<script>
+
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: 'popup modal title',
+                buttons: [{
+                    text: $.mage.__('Continue'),
+                    class: '',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }]
+            };
+
+            var popup = modal(options, $('#popup-modal'));
+            $("#click-me").on('click',function(){
+                $("#popup-modal").modal("openModal");
+            });
+
+        }
+    );
+</script>

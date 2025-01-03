@@ -132,8 +132,12 @@ $_helper = $block->getData('outputHelper');
                                                 <?php endif; ?>
                                             <?php endif; ?>
                                         <?php else: ?>
-                                            <span
-                                                class="hide-price"><?= $escaper->escapeHtml(__('Contact Us for Price')) ?></span>
+                                            <div>
+                                                <?php if ($_product->getIsHidePrice()): ?>
+                                                    <?= $this->getLayout()->createBlock(\Magento\Framework\View\Element\Template::class)
+                                                        ->setTemplate('Thao_HidePrice::common/contact-us-button.phtml')->toHtml(); ?>
+                                                <?php endif; ?>
+                                            </div>
                                         <?php endif; ?>
                                     </div>
                                     <?= ($pos && strpos($pos, $viewMode . '-primary')) ?
