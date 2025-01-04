@@ -1,0 +1,1 @@
+"Fatal Error: 'Class Thao\\HidePrice\\Setup\\Patch\\Data\\AddIsHidePriceAttribute contains 1 abstract method and must therefore be declared abstract or implement the remaining methods (Magento\\Framework\\Setup\\Patch\\PatchInterface::getAliases)' in '\/var\/www\/magento2\/app\/code\/Thao\/HidePrice\/Setup\/Patch\/Data\/AddIsHidePriceAttribute.php' on line 11"
