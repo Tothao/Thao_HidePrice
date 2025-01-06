@@ -1,18 +1,17 @@
-<!-- contact-us-button.phtml -->
-
-<!-- Nút "Contact Us" -->
+<?php
+/** @var \Thao\HidePrice\Block\View\Contact $block */
+$product = $block->getProduct();
+$productId = $product ? $product->getId() : null;
+?>
+<body data-product-id="<?= $productId ?>">
 <div>
-    <button type="button" class="contact-us-button"><a href="#" id="click-me">Click Me</a></button>
+    <button type="button" class="contact-us-button"><?= __("Contact us") ?></button>
 </div>
-
-<!-- Popup HTML -->
-<div id="popup-modal" style="display:none;"">
+<div id="popup-modal" style="display: none">
     <div class="popup-content">
-        <span class="close-popup">&times;</span>
-        <h2><?= __("Contact Us") ?></h2>
-
         <!-- Form -->
         <form id="contactUsForm" action="#" method="post">
+            <input type="hidden" id="product_id" name="product_id" value="<?= $productId ?>">
             <div>
                 <label for="full_name"><?= __("Full Name") ?>:</label><br>
                 <input type="text" id="full_name" name="full_name" required><br><br>
@@ -33,37 +32,71 @@
         </form>
     </div>
 </div>
-
 <script>
+    require([
+        'jquery',
+        'Magento_Ui/js/modal/modal'
+    ], function ($, modal) {
+        var productId = $('body').data('product-id'); // Lấy ID sản phẩm từ data-attribute trong thẻ body
+        console.log('Product ID:', productId); // Kiểm tra xem đã lấy được ID chưa
 
-    require(
-        [
-            'jquery',
-            'Magento_Ui/js/modal/modal'
-        ],
-        function(
-            $,
-            modal
-        ) {
-            var options = {
-                type: 'popup',
-                responsive: true,
-                innerScroll: true,
-                title: 'popup modal title',
-                buttons: [{
-                    text: $.mage.__('Continue'),
-                    class: '',
-                    click: function () {
-                        this.closeModal();
+        var options = {
+            type: 'popup',
+            responsive: true,
+            innerScroll: true,
+            title: 'Contact Us',
+            modalClass: 'custom-modal',
+            buttons: []
+        };
+
+        var popup = modal(options, $('#popup-modal'));
+
+        // Mở modal khi bấm vào nút Contact Us
+        $('.contact-us-button').on('click', function (e) {
+            e.preventDefault();
+            $('#popup-modal').modal('openModal');
+        });
+
+        // Gửi form và lấy thông tin ID sản phẩm
+        $('#contactUsForm').on('submit', function (e) {
+            console.log('asd');
+            e.preventDefault(); // Ngăn hành vi gửi form mặc định
+            var fullName = $('#full_name').val();
+            var email = $('#email').val();
+            var phone = $('#phone').val();
+            var message = $('#message').val();
+
+            // Kiểm tra thông tin gửi lên
+            console.log('Full Name:', fullName);
+            console.log('Email:', email);
+            console.log('Phone:', phone);
+            console.log('Message:', message);
+            console.log('Product ID:', productId);
+
+            // Gửi dữ liệu tới server hoặc xử lý theo cách của bạn
+            $.ajax({
+                url: '/HidePrice/ajax/submitform', // URL trỏ đến controller
+                type: 'POST',
+                data: {
+                    product_id: productId,
+                    full_name: fullName,
+                    email: email,
+                    phone: phone,
+                    message: message
+                },
+                success: function(response) {
+                    console.log('Form submitted successfully:', response);
+                    if (response.success) {
+                        window.location.href = '/catalog/category/view'; // Điều hướng nếu gửi thành công
+                    } else {
+                        alert(response.message); // Hiển thị lỗi nếu có
                     }
-                }]
-            };
-
-            var popup = modal(options, $('#popup-modal'));
-            $("#click-me").on('click',function(){
-                $("#popup-modal").modal("openModal");
+                },
+                error: function(error) {
+                    console.log('Error submitting form:', error);
+                }
             });
-
-        }
-    );
+        });
+    });
 </script>
+</body>
