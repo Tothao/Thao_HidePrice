@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<router id="standard">
-    <route id="Thao_HidePrice" frontName="HidePrice">
-        <module name="Thao_HidePrice" />
-    </route>
-</router>

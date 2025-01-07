@@ -135,6 +135,7 @@ $_helper = $block->getData('outputHelper');
                                             <div>
                                                 <?php if ($_product->getIsHidePrice()): ?>
                                                     <?= $this->getLayout()->createBlock(\Magento\Framework\View\Element\Template::class)
+                                                        ->setProduct($_product)
                                                         ->setTemplate('Thao_HidePrice::common/contact-us-button.phtml')->toHtml(); ?>
                                                 <?php endif; ?>
                                             </div>

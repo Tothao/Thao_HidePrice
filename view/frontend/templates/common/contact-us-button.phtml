@@ -5,12 +5,12 @@ $productId = $product ? $product->getId() : null;
 ?>
 <body data-product-id="<?= $productId ?>">
 <div>
-    <button type="button" class="contact-us-button"><?= __("Contact us") ?></button>
+    <button type="button" class="contact-us-button-<?=$productId?>"><?= __("Contact us") ?></button>
 </div>
-<div id="popup-modal" style="display: none">
+<div id="popup-modal-<?=$productId?>" style="display: none">
     <div class="popup-content">
         <!-- Form -->
-        <form id="contactUsForm" action="#" method="post">
+        <form id="contactUsForm<?=$productId?>" action="#" method="post">
             <input type="hidden" id="product_id" name="product_id" value="<?= $productId ?>">
             <div>
                 <label for="full_name"><?= __("Full Name") ?>:</label><br>
@@ -49,22 +49,21 @@ $productId = $product ? $product->getId() : null;
             buttons: []
         };
 
-        var popup = modal(options, $('#popup-modal'));
+        var popup = modal(options, $('#popup-modal-<?=$productId?>'));
 
         // Mở modal khi bấm vào nút Contact Us
-        $('.contact-us-button').on('click', function (e) {
+        $('.contact-us-button-<?=$productId?>').on('click', function (e) {
             e.preventDefault();
-            $('#popup-modal').modal('openModal');
+            $('#popup-modal-<?=$productId?>').modal('openModal');
         });
 
         // Gửi form và lấy thông tin ID sản phẩm
-        $('#contactUsForm').on('submit', function (e) {
-            console.log('asd');
-            e.preventDefault(); // Ngăn hành vi gửi form mặc định
-            var fullName = $('#full_name').val();
-            var email = $('#email').val();
-            var phone = $('#phone').val();
-            var message = $('#message').val();
+        $('#contactUsForm<?=$productId?>').on('submit', function (e) {
+            e.preventDefault();
+            var fullName = $('#contactUsForm<?=$productId?>' + ' [name="full_name"]').val();
+            var email = $('#contactUsForm<?=$productId?>' + ' [name="email"]').val();
+            var phone = $('#contactUsForm<?=$productId?>' + ' [name="phone"]').val();
+            var message = $('#contactUsForm<?=$productId?>' + ' [name="message"]').val();
 
             // Kiểm tra thông tin gửi lên
             console.log('Full Name:', fullName);
@@ -75,7 +74,7 @@ $productId = $product ? $product->getId() : null;
 
             // Gửi dữ liệu tới server hoặc xử lý theo cách của bạn
             $.ajax({
-                url: '/HidePrice/ajax/submitform', // URL trỏ đến controller
+                url: '/hideprice/ajax/submitform', // URL trỏ đến controller
                 type: 'POST',
                 data: {
                     product_id: productId,
@@ -87,7 +86,7 @@ $productId = $product ? $product->getId() : null;
                 success: function(response) {
                     console.log('Form submitted successfully:', response);
                     if (response.success) {
-                        window.location.href = '/catalog/category/view'; // Điều hướng nếu gửi thành công
+
                     } else {
                         alert(response.message); // Hiển thị lỗi nếu có
                     }

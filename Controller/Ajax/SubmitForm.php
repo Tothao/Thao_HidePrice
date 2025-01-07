@@ -1,52 +1,71 @@
 <?php
-namespace Vendor\Module\Controller\Ajax;
+
+namespace Thao\HidePrice\Controller\Ajax;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Controller\Result\JsonFactory;
+use Magento\Framework\Mail\Template\TransportBuilder;
+use Magento\Store\Model\StoreManagerInterface;
+
+use Magento\Framework\App\Config\ScopeConfigInterface;
 
 class SubmitForm extends Action
 {
     protected $resultJsonFactory;
+    protected $transportBuilder;
+    protected $storeManager;
+    protected $scopeConfig;
 
-    // Khai báo ResultJsonFactory
     public function __construct(
         Context $context,
-        JsonFactory $resultJsonFactory
+        JsonFactory $resultJsonFactory,
+        TransportBuilder $transportBuilder,
+        StoreManagerInterface $storeManager,
+        ScopeConfigInterface $scopeConfig
     ) {
         $this->resultJsonFactory = $resultJsonFactory;
+        $this->transportBuilder = $transportBuilder;
+        $this->storeManager = $storeManager;
+        $this->scopeConfig = $scopeConfig;
         parent::__construct($context);
     }
 
     public function execute()
     {
-        // Lấy dữ liệu từ POST
-        $postData = $this->getRequest()->getPostValue();
+        $result = $this->resultJsonFactory->create();
 
-        if (!$postData) {
-            $result = ['success' => false, 'message' => 'No data received'];
-            return $this->jsonResponse($result);
+        $postValue = $this->getRequest()->getPostValue();
+        if ($postValue) {
+            // Lấy email admin từ cấu hình
+            $adminEmail = $this->scopeConfig->getValue('HidePrice/general/email_template', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+
+            // Tạo nội dung email
+            $templateVars = [
+                'name' => $postValue['full_name'],
+                'email' => $postValue['email'],
+                'phone' => $postValue['phone'],
+                'message' => $postValue['message'],
+                'product_id' => $postValue['product_id'], // Thêm product_id vào nội dung email
+            ];
+
+            // Cấu hình và gửi email
+            $transport = $this->transportBuilder
+                ->setTemplateIdentifier('hide_price_contact_email') // ID template từ email_templates.xml
+                ->setTemplateVars($templateVars)
+                ->setFrom('general')
+                ->addTo($adminEmail) // Gửi email đến địa chỉ admin lấy từ cấu hình
+                ->setTemplateOptions([
+                    'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
+                    'store' => $this->storeManager->getStore()->getId(),
+                ])
+                ->getTransport();
+
+            $transport->sendMessage();  // Gửi email
+
+            return $result->setData(['success' => true, 'message' => 'Form submitted successfully!']);
         }
 
-        // Lấy thông tin từ form
-        $productId = $postData['product_id'];
-        $fullName = $postData['full_name'];
-        $email = $postData['email'];
-        $phone = $postData['phone'];
-        $message = $postData['message'];
-
-        // Xử lý dữ liệu (Ví dụ: lưu vào database, gửi email, v.v.)
-        // Bạn có thể thêm mã xử lý ở đây như lưu vào database hoặc gửi email.
-
-        // Trả về phản hồi thành công
-        $result = ['success' => true, 'message' => 'Form submitted successfully'];
-        return $this->jsonResponse($result);
-    }
-
-    // Trả về phản hồi JSON
-    protected function jsonResponse($data)
-    {
-        $result = $this->resultJsonFactory->create();
-        return $result->setData($data);
+        return $result->setData(['success' => false, 'message' => 'Invalid request.']);
     }
 }
