@@ -9,10 +9,10 @@ class Contact extends View
     {
         $layout = $this->getLayout();
         if ($this->isHidePrice()) {
-            $layout->unsetElement('product.info.addtocart');
             $layout->unsetElement('product.price.final');
         }
     }
+
     public function isHidePrice()
     {
         $product = $this->getProduct();
