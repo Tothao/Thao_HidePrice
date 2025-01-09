@@ -37,8 +37,9 @@ $productId = $product ? $product->getId() : null;
         'jquery',
         'Magento_Ui/js/modal/modal'
     ], function ($, modal) {
-        var productId = $('body').data('product-id'); // Lấy ID sản phẩm từ data-attribute trong thẻ body
-        console.log('Product ID:', productId); // Kiểm tra xem đã lấy được ID chưa
+        // var productId = $('body').data('product-id'); // Lấy ID sản phẩm từ data-attribute trong thẻ body
+        // console.log('Product ID:', productId); // Kiểm tra xem đã lấy được ID chưa
+
 
         var options = {
             type: 'popup',
@@ -64,6 +65,7 @@ $productId = $product ? $product->getId() : null;
             var email = $('#contactUsForm<?=$productId?>' + ' [name="email"]').val();
             var phone = $('#contactUsForm<?=$productId?>' + ' [name="phone"]').val();
             var message = $('#contactUsForm<?=$productId?>' + ' [name="message"]').val();
+            var productId = $('#contactUsForm<?=$productId?>' + ' [name="product_id"]').val();
 
             // Kiểm tra thông tin gửi lên
             console.log('Full Name:', fullName);

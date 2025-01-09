@@ -39,9 +39,27 @@ class SubmitForm extends Action
         $result = $this->resultJsonFactory->create();
         $postValue = $this->getRequest()->getPostValue();
 
-        if ($postValue && isset($postValue['full_name'], $postValue['email'], $postValue['phone'], $postValue['message'], $postValue['product_id'])) {
-            // Lấy email admin từ cấu hình
-            $adminEmail = $this->scopeConfig->getValue('trans_email/ident_general/email', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        if ($postValue) {
+            // Lấy thông tin email từ cấu hình hệ thống
+            $adminEmail = $this->scopeConfig->getValue(
+                'contact/email/recipient_email',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
+
+            $senderEmail = $this->scopeConfig->getValue(
+                'trans_email/ident_general/email',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
+
+            $senderName = $this->scopeConfig->getValue(
+                'trans_email/ident_general/name',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+            );
+
+            $sender = [
+                'name' => $senderName,
+                'email' => $senderEmail,
+            ];
 
             // Tạo nội dung email
             $templateVars = [
@@ -55,17 +73,19 @@ class SubmitForm extends Action
             try {
                 // Cấu hình và gửi email
                 $transport = $this->transportBuilder
-                    ->setTemplateIdentifier('hide_price_contact_email')
-                    ->setTemplateVars($templateVars)
-                    ->setFrom('general')
-                    ->addTo($adminEmail)
-                    ->setTemplateOptions([
-                        'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-                        'store' => $this->storeManager->getStore()->getId(),
-                    ])
+                    ->setTemplateIdentifier('hide_price_contact_email') // ID của template email
+                    ->setTemplateVars($templateVars) // Dữ liệu mẫu
+                    ->setFrom($sender) // Email gửi từ cấu hình hệ thống
+                    ->addTo($adminEmail) // Địa chỉ email người nhận (admin)
+                    ->setTemplateOptions(
+                        [
+                            'area' => \Magento\Framework\App\Area::AREA_FRONTEND, // Khu vực frontend
+                            'store' => $this->storeManager->getStore()->getId(),
+                        ]
+                    )
                     ->getTransport();
 
-                $transport->sendMessage();  // Gửi email
+                $transport->sendMessage(); // Gửi email
 
                 return $result->setData(['success' => true, 'message' => 'Form submitted successfully!']);
             } catch (\Exception $e) {
