@@ -28,7 +28,7 @@ $productId = $product ? $product->getId() : null;
                 <label for="message"><?= __("Message") ?>:</label><br>
                 <textarea id="message" name="message" rows="4" required></textarea><br><br>
             </div>
-            <button type="submit"><?= __("Submit") ?></button>
+            <button class="contact-Submit-button" type="submit"><?= __("Submit") ?></button>
         </form>
     </div>
 </div>
@@ -74,9 +74,9 @@ $productId = $product ? $product->getId() : null;
             console.log('Message:', message);
             console.log('Product ID:', productId);
 
-            // Gửi dữ liệu tới server hoặc xử lý theo cách của bạn
+
             $.ajax({
-                url: '/hideprice/ajax/submitform', // URL trỏ đến controller
+                url: '/hideprice/ajax/submitform',
                 type: 'POST',
                 data: {
                     product_id: productId,
@@ -88,13 +88,20 @@ $productId = $product ? $product->getId() : null;
                 success: function(response) {
                     console.log('Form submitted successfully:', response);
                     if (response.success) {
-
+                        setTimeout(function() {
+                            $('#popup-modal-<?=$productId?>').modal('closeModal');
+                            alert('Form submitted successfully!');
+                        }, 100);
                     } else {
                         alert(response.message); // Hiển thị lỗi nếu có
                     }
                 },
                 error: function(error) {
-                    console.log('Error submitting form:', error);
+                    setTimeout(function() {
+                        console.log('Error submitting form:', error);
+                        $('#popup-modal-<?=$productId?>').modal('closeModal');
+                        alert('An error occurred while submitting the form.');
+                    }, 100);
                 }
             });
         });
