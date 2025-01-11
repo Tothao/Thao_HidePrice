@@ -76,7 +76,7 @@ return [
         'config_integration' => 1,
         'config_integration_api' => 1,
         'graphql_query_resolver_result' => 1,
-        'full_page' => 1,
+        'full_page' => 0,
         'config_webservice' => 1,
         'translate' => 1
     ],
