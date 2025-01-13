@@ -36,9 +36,6 @@ class AddHidePriceCustomerGroupAttribute implements DataPatchInterface
         $this->eavSetupFactory = $eavSetupFactory;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function apply()
     {
         /** @var EavSetup $eavSetup */
@@ -62,7 +59,7 @@ class AddHidePriceCustomerGroupAttribute implements DataPatchInterface
             'filterable' => false,
             'comparable' => false,
             'visible_on_front' => false,
-            'used_in_product_listing' => false,
+            'used_in_product_listing' => true,
             'unique' => false,
             'apply_to' => '',
         ]);

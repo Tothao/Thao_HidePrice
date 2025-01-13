@@ -4,8 +4,6 @@
 <?php
 $isHidePrice = $block->isHidePrice();
 ?>
-<?php if ($block->isHidePrice()) : ?>
-
-<?php else: ?>
+<?php if (!$block->isHidePrice()) : ?>
     <?= $block->getChildHtml('product.price.final') ?>
 <?php endif; ?>
