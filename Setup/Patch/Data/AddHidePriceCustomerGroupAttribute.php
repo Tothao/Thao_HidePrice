@@ -46,13 +46,13 @@ class AddHidePriceCustomerGroupAttribute implements DataPatchInterface
 
         // Tạo attribute 'hide_price_customer_group'
         $eavSetup->addAttribute('catalog_product', 'hide_price_customer_group', [
-            'type' => 'text',
+            'type' => 'varchar',
             'backend' => '',
             'frontend' => '',
             'label' => 'Hide Price for Customer Groups',
             'input' => 'multiselect',
             'class' => '',
-            'source' => 'Magento\Eav\Model\Entity\Attribute\Source\Table', // Sử dụng bảng cho dữ liệu multiselect
+            'source' => \Thao\HidePrice\Model\Entity\Attribute\Source\CustomerGroup::class,
             'global' => ScopedAttributeInterface::SCOPE_GLOBAL,
             'visible' => true,
             'required' => false,
