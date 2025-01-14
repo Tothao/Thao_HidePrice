@@ -7,7 +7,11 @@
 ?>
 <?php $_helper = $this->helper(Magento\Catalog\Helper\Output::class); ?>
 <?php $_product = $block->getProduct(); ?>
-<?php if ($block->getIsHidePrice()): ?>
+<?php
+/** @var Thao\HidePrice\ViewModel\HidePriceViewModel $hidePriceViewModel */
+$hidePriceViewModel = $block->getData('hidePriceViewModel')
+?>
+<?php if ($hidePriceViewModel->isHidePrice($_product)): ?>
     <?= $this->getLayout()->createBlock(\Magento\Framework\View\Element\Template::class)
         ->setProduct($_product)
         ->setTemplate('Thao_HidePrice::common/contact-us-button.phtml')->toHtml(); ?>

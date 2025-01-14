@@ -2,14 +2,20 @@
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="product.info.price">
-            <block class="Thao\HidePrice\Block\View\Contact" name="custom.hide.price" template="Thao_HidePrice::catalog/product/view/contact_us.phtml">
-                <arguments>
-                    <argument name="hidePriceViewModel" xsi:type="object">Thao\HidePrice\ViewModel\HidePriceViewModel</argument>
-                </arguments>
-            </block>
+            <block class="Thao\HidePrice\Block\View\Contact" name="custom.hide.price" template="Thao_HidePrice::catalog/product/view/contact_us.phtml"/>
         </referenceContainer>
+        <referenceBlock name="product.info" template="Thao_HidePrice::catalog/product/view/form.phtml">
+            <arguments>
+                <argument name="hidePriceViewModel" xsi:type="object">Thao\HidePrice\ViewModel\HidePriceViewModel</argument>
+            </arguments>
+        </referenceBlock>
 
-        <referenceBlock class="Magento\Catalog\Block\Product\ProductList\Upsell" name="product.info.upsell"
+
+        <referenceBlock name="catalog.product.related"
+                        template="Thao_HidePrice::catalog/product/list/items.phtml"/>
+
+
+        <referenceBlock name="product.info.upsell"
                         template="Thao_HidePrice::catalog/product/list/items.phtml">
             <arguments>
                 <argument name="hidePriceViewModel" xsi:type="object">Thao\HidePrice\ViewModel\HidePriceViewModel</argument>
