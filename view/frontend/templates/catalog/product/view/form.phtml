@@ -1,20 +1,13 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
-
-// phpcs:disable Magento2.Templates.ThisInTemplate.FoundThis
-
-/**
  * Product view template
  *
- * @var $block \Magento\Catalog\Block\Product\View
+ * @var $block \Thao\HidePrice\Block\View\Contact
  */
 ?>
 <?php $_helper = $this->helper(Magento\Catalog\Helper\Output::class); ?>
 <?php $_product = $block->getProduct(); ?>
-<?php if($_product->getIsHidePrice()): ?>
+<?php if ($block->getIsHidePrice()): ?>
     <?= $this->getLayout()->createBlock(\Magento\Framework\View\Element\Template::class)
         ->setProduct($_product)
         ->setTemplate('Thao_HidePrice::common/contact-us-button.phtml')->toHtml(); ?>

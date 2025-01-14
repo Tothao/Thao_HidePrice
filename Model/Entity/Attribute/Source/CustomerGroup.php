@@ -17,9 +17,8 @@ class CustomerGroup extends AbstractSource
      *
      * @param CollectionFactory $customerGroupCollectionFactory
      */
-    public function __construct(
-        CollectionFactory $customerGroupCollectionFactory
-    ) {
+    public function __construct(CollectionFactory $customerGroupCollectionFactory)
+    {
         $this->customerGroupCollectionFactory = $customerGroupCollectionFactory;
     }
 
@@ -30,16 +29,16 @@ class CustomerGroup extends AbstractSource
      */
     public function getAllOptions()
     {
-        $options = [];
-        $groups = $this->customerGroupCollectionFactory->create();
-
-        foreach ($groups as $group) {
-            $options[] = [
-                'label' => $group->getCustomerGroupCode(),
-                'value' => $group->getId()
-            ];
+        if (!$this->_options) {
+            $this->_options = [];
+            $groups = $this->customerGroupCollectionFactory->create();
+            foreach ($groups as $group) {
+                $this->_options[] = [
+                    'label' => $group->getCustomerGroupCode(),
+                    'value' => $group->getId(),
+                ];
+            }
         }
-
-        return $options;
+        return $this->_options;
     }
 }

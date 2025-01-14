@@ -1,10 +1,13 @@
 <?php
 /** @var \Thao\HidePrice\Block\View\Contact $block */
+/** @var \Thao\HidePrice\ViewModel $hidePriceViewModel */
+$hidePriceViewModel = $block->getData('hidePriceViewModel')
 ?>
 <?php
-$isHidePrice = $block->isHidePrice();
+$product = $block->getProduct();
+
 ?>
-<?php if ($block->isHidePrice()) : ?>
+<?php if ($hidePriceViewModel->isHidePrice($product)) : ?>
 
 <?php else: ?>
     <?= $block->getChildHtml('product.price.final') ?>

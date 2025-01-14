@@ -168,6 +168,8 @@ $_item = null;
                         data-role="select-all"><span><?= $block->escapeHtml(__('select all')) ?></span></button>
             </div>
         <?php endif; ?>
+        <?php  /** @var \Thao\HidePrice\ViewModel $hidePriceViewModel */
+        $hidePriceViewModel = $block->getData('hidePriceViewModel') ?>
         <div class="products wrapper grid products-grid products-<?= $block->escapeHtmlAttr($type) ?>">
             <ol class="products list items product-items">
                 <?php foreach ($items as $_item):?>
@@ -189,9 +191,8 @@ $_item = null;
                                             <?= $block->escapeHtml($_item->getName()) ?>
                                         </a>
                                     </strong>
-
                                     <!-- Check if the price should be hidden -->
-                                    <?php if ($_item->getIsHidePrice()): ?>
+                                    <?php if ($hidePriceViewModel->isHidePrice($_item)): ?>
                                         <?= $this->getLayout()->createBlock(\Magento\Framework\View\Element\Template::class)
                                             ->setProduct($_item)
                                             ->setTemplate('Thao_HidePrice::common/contact-us-button.phtml')->toHtml(); ?>

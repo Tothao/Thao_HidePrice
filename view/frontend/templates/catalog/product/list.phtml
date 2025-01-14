@@ -20,6 +20,8 @@ use Magento\Framework\App\Action\Action;
 $_productCollection = $block->getLoadedProductCollection();
 /** @var \Magento\Catalog\Helper\Output $_helper */
 $_helper = $block->getData('outputHelper');
+/** @var \Thao\HidePrice\ViewModel $hidePriceViewModel */
+$hidePriceViewModel = $block->getData('hidePriceViewModel')
 ?>
 <?php if (!$_productCollection->count()): ?>
     <div class="message info empty">
@@ -83,7 +85,7 @@ $_helper = $block->getData('outputHelper');
                                 <div class="product actions product-item-actions">
                                     <div class="actions-primary">
 
-                                        <?php if (!$_product->getIsHidePrice()): ?>
+                                        <?php if (!$hidePriceViewModel->isHidePrice($_product)): ?>
                                             <?php if ($_product->isSaleable()): ?>
                                                 <?= $block->getReviewsSummaryHtml($_product, $templateType) ?>
                                                 <?= /* @noEscape */
