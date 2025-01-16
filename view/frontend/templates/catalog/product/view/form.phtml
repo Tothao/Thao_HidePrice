@@ -7,6 +7,9 @@
 ?>
 <?php $_helper = $this->helper(Magento\Catalog\Helper\Output::class); ?>
 <?php $_product = $block->getProduct(); ?>
+<?php /** @var \Thao\HidePrice\ViewModel $hidePriceViewModel  */
+$hidePriceViewModel = $block->getData('hidePriceViewModel')
+?>
 <?php
 /** @var Thao\HidePrice\ViewModel\HidePriceViewModel $hidePriceViewModel */
 $hidePriceViewModel = $block->getData('hidePriceViewModel')

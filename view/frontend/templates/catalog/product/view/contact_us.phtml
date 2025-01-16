@@ -7,8 +7,6 @@ $hidePriceViewModel = $block->getData('hidePriceViewModel')
 $product = $block->getProduct();
 
 ?>
-<?php if ($hidePriceViewModel->isHidePrice($product)) : ?>
-
-<?php else: ?>
+<?php if (!$hidePriceViewModel->isHidePrice($product)) :?>
     <?= $block->getChildHtml('product.price.final') ?>
 <?php endif; ?>

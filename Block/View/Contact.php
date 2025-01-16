@@ -16,6 +16,9 @@ class Contact extends View
     public function isHidePrice()
     {
         $product = $this->getProduct();
-        return $product->getIsHidePrice();
+        if ($viewModel = $this->getData('hidePriceViewModel')){
+        return $viewModel->isHidePrice($product);
+        }
+        return false;
     }
 }
