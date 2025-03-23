@@ -8,19 +8,22 @@ use Magento\Eav\Setup\EavSetupFactory;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
 
-class AddIsHidePriceAttribute implements DataPatchInterface {
+class AddHidePriceCustomerGroupAttribute implements DataPatchInterface
+{
     /**
      * ModuleDataSetupInterface
      *
      * @var ModuleDataSetupInterface
      */
     private $moduleDataSetup;
+
     /**
      * EavSetupFactory
      *
      * @var EavSetupFactory
      */
     private $eavSetupFactory;
+
     /**
      * @param ModuleDataSetupInterface $moduleDataSetup
      * @param EavSetupFactory          $eavSetupFactory
@@ -32,40 +35,44 @@ class AddIsHidePriceAttribute implements DataPatchInterface {
         $this->moduleDataSetup = $moduleDataSetup;
         $this->eavSetupFactory = $eavSetupFactory;
     }
-    /**
-     * {@inheritdoc}
-     */
-    public function apply() {
+
+    public function apply()
+    {
         /** @var EavSetup $eavSetup */
         $eavSetup = $this->eavSetupFactory->create(['setup' => $this->moduleDataSetup]);
-        $eavSetup->addAttribute('catalog_product', 'is_hide_price', [
-            'type' => 'int',
+
+        // Tạo attribute 'hide_price_customer_group'
+        $eavSetup->addAttribute('catalog_product', 'hide_price_customer_group', [
+            'type' => 'varchar',
             'backend' => '',
             'frontend' => '',
-            'label' => 'Is Hide Price',
-            'input' => 'select',
+            'label' => 'Hide Price for Customer Groups',
+            'input' => 'multiselect',
             'class' => '',
-            'source' => 'Thao\HidePrice\Model\Entity\Attribute\Source\Boolean',
-            'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
+            'source' => \Thao\HidePrice\Model\Entity\Attribute\Source\CustomerGroup::class,
+            'global' => ScopedAttributeInterface::SCOPE_GLOBAL,
             'visible' => true,
-            'required' => true,
-            'user_defined' => false,
-            'default' => '0',
+            'required' => false,
+            'user_defined' => true,
+            'default' => '',
             'searchable' => false,
             'filterable' => false,
             'comparable' => false,
             'visible_on_front' => false,
             'used_in_product_listing' => true,
             'unique' => false,
-            'apply_to' => ''
+            'apply_to' => '',
         ]);
     }
+
     /**
      * {@inheritdoc}
      */
-    public static function getDependencies() {
+    public static function getDependencies()
+    {
         return [];
     }
+
     /**
      * {@inheritdoc}
      */

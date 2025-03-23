@@ -1,0 +1,9 @@
+<?php
+/** @var \Thao\HidePrice\Block\View\Contact $block */
+?>
+<?php
+$isHidePrice = $block->isHidePrice();
+?>
+<?php if (!$block->isHidePrice()) : ?>
+    <?= $block->getChildHtml('product.price.final') ?>
+<?php endif; ?>
