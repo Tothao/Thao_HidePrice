@@ -39,6 +39,25 @@ Magento 2 module for hiding product prices based on customer groups or other con
    php bin/magento cache:flush
    ```
 
+## Configuration
+
+### How to Configure Hide Price for Products
+Go to the product edit page in the admin panel and configure the **Is Hide Price** and **Hide Price for Customer Groups** attributes.
+
+![Configuration](docs/images/config.png)
+
+### Hide price in product page
+
+![pdp](docs/images/pdp.png)
+
+### Hide price in product list
+
+![plp](docs/images/category_page.png)
+
+### Show popup contact to admin
+
+![popup](docs/images/popup.png)
+
 ## Support
 
 If you encounter any issues or have questions, please create an issue on the module's GitHub repository.
